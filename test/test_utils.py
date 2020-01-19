@@ -9,6 +9,6 @@ def get_test_image(img_name):
     kernel_size = 13
     blurred_image = cv2.GaussianBlur(resize_img, (kernel_size, kernel_size), 0)
 
-    _, bw_image = cv2.threshold(blurred_image, 120, 255, cv2.THRESH_BINARY)
+    _, bw_image = cv2.threshold(blurred_image, 120, 255, cv2.THRESH_BINARY_INV)
 
     return bw_image
