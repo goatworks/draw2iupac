@@ -1,6 +1,7 @@
 import cv2
 
 
+# gives the b/w image by putting the image name without extension (withe = written text, black = background)
 def get_test_image(img_name):
     file_name = f'../pics/{img_name}.jpg'
     gray_image = cv2.imread(file_name, cv2.IMREAD_GRAYSCALE)

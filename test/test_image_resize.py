@@ -3,17 +3,12 @@ import numpy as np
 from test import test_utils
 import segmentation
 
+# get b/w image, it's connected components and each blob image
 image = test_utils.get_test_image('CH4')
 _, labelled_image = cv2.connectedComponents(image)
-
-# for label in range(1, labelled_image.max()+1):
-#     blob_image = segmentation.get_blob_by_label_value(image, labelled_image, label)
-#     cv2.imshow(f'Image #{label}', blob_image)
-#
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
 blob_image = segmentation.get_blob_by_label_value(image, labelled_image, 2)
 
+# resize image to a square by padding 0s (background) on its top or left.
 row_n, col_n = blob_image.shape
 if row_n > col_n:
     col_to_be_added = row_n - col_n
