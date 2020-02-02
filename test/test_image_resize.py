@@ -19,8 +19,8 @@ else:
 
 assert padded_image.shape[0] == padded_image.shape[1]  # my matrix is now squared.
 
-# resize to pxp (64x64)
-final_dimension = 64
+# resize to pxp (28x28 - as per database images)
+final_dimension = 28
 if padded_image.shape[0] > final_dimension:
     resized_image = cv2.resize(padded_image, (final_dimension, final_dimension), interpolation=cv2.INTER_AREA)
 else:
