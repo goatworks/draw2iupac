@@ -3,6 +3,7 @@ import os
 import string
 import numpy as np
 import cv2
+import torch
 
 dataset_folder = '../letters_dataset'
 file_path = os.path.join(dataset_folder, 'A_Z Handwritten Data.csv')
@@ -46,13 +47,15 @@ with open(file_path, newline='') as csvfile:
         image_array = np.asarray(row[1:])
         image_matrix = image_array.reshape((28, 28))
         new_image = image_matrix.astype('uint8')
-        # gives the black and while image (withe = written text, black = background).
-        kernel_size = 3
-        blurred_image = cv2.GaussianBlur(new_image, (kernel_size, kernel_size), 0)
-        _, bw_image = cv2.threshold(blurred_image, 120, 255, cv2.THRESH_BINARY_INV)
+        # Experimented about blurring and/or thresholding to black and white. Decided not to.
+        # makes image black and white (white = written text, black = background).
+        # kernel_size = 3
+        # blurred_image = cv2.GaussianBlur(new_image, (kernel_size, kernel_size), 0)
+        # no cv2.TRESH_BINARY_INV reqired as the images are already with white written and black background.
+        # _, bw_image = cv2.threshold(blurred_image, 120, 255, cv2.THRESH_BINARY)
         # save image in folder with increasing filename
         new_image_path = os.path.join(this_letter_folder_name, str(count))
-        np.save(new_image_path, bw_image)
+        np.save(new_image_path, new_image)
         count += 1
 
 
