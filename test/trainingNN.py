@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torchvision
-import cv2
+# import torchvision
+# import cv2
 import numpy as np
 import string
 import os
@@ -18,16 +18,16 @@ class NeuralNetwork(nn.Module):
         self.layer3 = nn.Linear(hidden_size2, output_size)
 
     def forward(self, x):
-        x = F.relu((self.layer1(x)))
+        x = F.relu(self.layer1(x))
         x = F.relu(self.layer2(x))
-        output = F.log_softmax(self.layer3(x))  # log ?
+        output = F.log_softmax(self.layer3(x))  # use log or just softmax ?
         return output
 
 
-# Gets all the images (numpy arrays) in the said folder and transforms them in a normalised PyTorch tensor.
+# Get all the images (numpy arrays) in the said folder and transform them in a normalised PyTorch tensor.
 # Gives a list of lists of all the tensors labelled with the number corresponding to the letter they are.
 def get_dataset_from_letter_folder(folder_path, label):  # -> List[List]
-    list_of_folder_labelled_images = []
+    list_of_labelled_images = []
     list_of_img_in_folder = os.listdir(folder_path)
     list_of_img_in_folder.sort()  # To allow repeatable experiments.
     for file in list_of_img_in_folder:
@@ -36,8 +36,8 @@ def get_dataset_from_letter_folder(folder_path, label):  # -> List[List]
         image = image.astype(np.float32) / 255
         image = torch.from_numpy(image)
         labelled_image = [image, label]
-        list_of_folder_labelled_images.append(labelled_image)
-    return list_of_folder_labelled_images
+        list_of_labelled_images.append(labelled_image)
+    return list_of_labelled_images
 
 
 # Create dataset as required by torch (a big list of [tensor, label]).
@@ -82,10 +82,9 @@ torch.manual_seed(random_seed)
 torch.backends.cudnn.enabled = False
 
 
-
 # Train the network.
 total_step = len(train_loader)
-for epoch in range(num_epochs):
+for epoch in range(0, num_epochs):
     for i, (images, labels) in enumerate(train_loader):
         images = images.reshape(-1, 28*28)
         # show_batch(images)
@@ -97,9 +96,11 @@ for epoch in range(num_epochs):
         optimizer.step()
 
         if (i+1) % 10 == 0:
-            print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'.format(epoch + 1, num_epochs, i + 1, total_step, loss.item()))
+            print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
+                  .format(epoch + 1, num_epochs, i + 1, total_step, loss.item()))
 
 
+# Test the network.
 with torch.no_grad():
     correct = 0
     total = 0
@@ -112,3 +113,6 @@ with torch.no_grad():
     print('Accuracy of the network on test images: {} %'.format(100 * correct / total))
 
 print('Che sudata !')
+
+NN_path = os.path.join('..', 'test', 'my_model')
+torch.save(model, NN_path)
