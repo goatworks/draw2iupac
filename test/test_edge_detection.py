@@ -1,9 +1,10 @@
 import cv2
+
 # get image in gray scale to reduce noise.
 gray_image = cv2.imread('../pics/CH4.jpg', cv2.IMREAD_GRAYSCALE)
 resize_img = cv2.resize(gray_image, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
 
-# blur then b/w image to easier fetch edges.
+# blur image, then turn it to b/w to easier fetch edges.
 kernel_size = 13
 blurred_image = cv2.GaussianBlur(resize_img, (kernel_size, kernel_size), 0)
 

@@ -1,10 +1,11 @@
 import cv2
 
 
-# gives the b/w image by putting the image name without extension (withe = written text, black = background)
+# Return the b/w image by putting the image name without extension (withe = written text, black = background)
 def get_test_image(img_name):
     file_name = f'../pics/{img_name}.jpg'
     gray_image = cv2.imread(file_name, cv2.IMREAD_GRAYSCALE)
+    # Resize img to fit the screen and have better visibility.
     resize_img = cv2.resize(gray_image, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
 
     kernel_size = 13

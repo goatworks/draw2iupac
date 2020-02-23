@@ -1,7 +1,7 @@
 import numpy as np
 
 
-# extracts the part of a image (blob) matching the specified value in the corresponding labelled image.
+# Extract the part of a image (blob) matching the specified value in the corresponding labelled image.
 def get_blob_by_label_value(img, labelled_img, value):
     blob = np.where(labelled_img == value)
     top_left_corner_this_blob = blob[0].min(), blob[1].min()
