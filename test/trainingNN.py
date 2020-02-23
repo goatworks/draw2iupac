@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 # import torchvision
 # import cv2
 import numpy as np
@@ -8,20 +7,7 @@ import string
 import os
 import random
 
-
-class NeuralNetwork(nn.Module):
-    """ A Neural Network with two hidden layers. """
-    def __init__(self, input_size, hidden_size1, hidden_size2, output_size):
-        super(NeuralNetwork, self).__init__()
-        self.layer1 = nn.Linear(input_size, hidden_size1)
-        self.layer2 = nn.Linear(hidden_size1, hidden_size2)
-        self.layer3 = nn.Linear(hidden_size2, output_size)
-
-    def forward(self, x):
-        x = F.relu(self.layer1(x))
-        x = F.relu(self.layer2(x))
-        output = F.log_softmax(self.layer3(x))  # use log or just softmax ?
-        return output
+from neural_network import NeuralNetwork
 
 
 # Get all the images (numpy arrays) in the said folder and transform them in a normalised PyTorch tensor.
@@ -43,6 +29,7 @@ def get_dataset_from_letter_folder(folder_path, label):  # -> List[List]
 # Create dataset as required by torch (a big list of [tensor, label]).
 all_labelled_pics = []
 for i, letter in enumerate(string.ascii_uppercase):
+    # if letter in ['C', 'H', 'I', 'O', 'N']:
     folder_name = os.path.join('..', 'letters_dataset', 'balanced_Sachin', letter)
     one_letter_labelled_pics = get_dataset_from_letter_folder(folder_name, i)
     all_labelled_pics.append(one_letter_labelled_pics)
@@ -63,10 +50,10 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=7, sh
 
 # Training parameters, Loss function and optimizer.
 input_size = 28 * 28
-hidden_size1 = 32
-hidden_size2 = 16
+hidden_size1 = 150
+hidden_size2 = 50
 output_size = 26
-num_epochs = 7
+num_epochs = 15
 momentum = 0.9
 
 learning_rate = 0.01
