@@ -4,7 +4,7 @@ from torch.nn import functional as F
 
 
 class Conv_NeuralNetwork(nn.Module):
-    """ A Convolutional Neural Network with 2 cov layers and a fully connected one layers. """
+    """ A Convolutional Neural Network with 2 cov layers and a fully connected layer. """
 
     def __init__(self, conv1_in_chan, conv1_out_chan, conv2_out_chan, conv_kernel_size, pool_kernel_size,
                  hidden_size1, hidden_size2, output_size):

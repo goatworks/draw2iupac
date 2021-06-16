@@ -26,7 +26,7 @@ def get_dataset_from_letter_folder(folder_path, label):  # -> List[List]
         list_of_labelled_images.append(labelled_image)
     return list_of_labelled_images
 
-
+print("Let's strat")
 # Create dataset as required by torch (a big list of [tensor, label]).
 all_labelled_pics = []
 for i, letter in enumerate(string.ascii_uppercase):
@@ -54,7 +54,7 @@ test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=7, sh
 conv1_in_chan = 1
 conv1_out_chan = 10
 conv2_out_chan = 20
-conv_kernel_size = 5
+conv_kernel_size = 3
 pool_kernel_size = 2
 
 hidden_size1 = 980
@@ -77,7 +77,7 @@ random_seed = 42
 torch.manual_seed(random_seed)
 torch.backends.cudnn.enabled = False
 
-
+print("start training")
 # Train the network.
 total_step = len(train_loader)
 loss_evolution = []
@@ -95,11 +95,11 @@ for epoch in range(0, num_epochs):
 
         loss_evolution.append(loss.item())
 
-        if (i+1) % 10 == 0:
+        if (i+1) % 100 == 0:
             print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
                   .format(epoch + 1, num_epochs, i + 1, total_step, loss.item()))
 
-
+print("start testing")
 # Test the network.
 with torch.no_grad():
     correct = 0
@@ -120,3 +120,5 @@ torch.save(model, NN_path)
 from matplotlib import pyplot as plt
 plt.plot(loss_evolution)
 plt.show()
+
+print("End.")

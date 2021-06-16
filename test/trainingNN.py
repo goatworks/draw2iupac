@@ -33,7 +33,7 @@ for i, letter in enumerate(string.ascii_uppercase):
     folder_name = os.path.join('..', 'letters_dataset', 'balanced_Sachin', letter)
     one_letter_labelled_pics = get_dataset_from_letter_folder(folder_name, i)
     all_labelled_pics.append(one_letter_labelled_pics)
-
+print("dataset created.")
 # Split data in training and testing datasets; create their iterators.
 random.seed(5)  # To allow repeatable experiments.
 train_dataset = []
@@ -46,7 +46,7 @@ for sublist in all_labelled_pics:
 
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=42, shuffle=True)
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=7, shuffle=False)
-
+print("train/test loaders created.")
 
 # Training parameters, Loss function and optimizer.
 input_size = 28 * 28
@@ -68,7 +68,7 @@ random_seed = 42
 torch.manual_seed(random_seed)
 torch.backends.cudnn.enabled = False
 
-
+print("Start training...")
 # Train the network.
 total_step = len(train_loader)
 for epoch in range(0, num_epochs):
@@ -86,7 +86,7 @@ for epoch in range(0, num_epochs):
             print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
                   .format(epoch + 1, num_epochs, i + 1, total_step, loss.item()))
 
-
+print("Start testing!")
 # Test the network.
 with torch.no_grad():
     correct = 0
@@ -98,7 +98,7 @@ with torch.no_grad():
         total += labels.size(0)
         correct += (predicted == labels).sum().item()
     print('Accuracy of the network on test images: {} %'.format(100 * correct / total))
-
+print("tested")
 print('Che sudata !')
 
 NN_path = os.path.join('..', 'test', 'my_model')
